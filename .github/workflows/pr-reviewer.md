@@ -15,6 +15,9 @@ network:
 max-ai-credits: 500
 max-daily-ai-credits: 2000
 max-turns: 20
+tools:
+  github:
+    mode: gh-proxy
 safe-outputs:
   add-comment:
   threat-detection:

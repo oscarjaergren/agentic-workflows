@@ -10,7 +10,7 @@ engine:
 max-turns: 20
 tools:
   github:
-    toolsets: [default]
+    mode: gh-proxy
 mcp-scripts:
   check-release-notes:
     description: "Check that a release has release notes"
