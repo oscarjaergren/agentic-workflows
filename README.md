@@ -2,7 +2,7 @@
 
 Two [GitHub Agentic Workflows](https://gh.io/gh-aw):
 
-- `pr-reviewer.md` reviews each non-draft pull request and leaves inline comments on real problems.
+- `pr-reviewer.md` reviews each non-draft pull request, comments on real problems and approves clean ones.
 - `sdlc-conformance.md` turns `docs/sdlc-policy.md` into checks every Monday and opens an issue for failures.
 
 The agent runs in a firewalled sandbox and only queues outputs. A separate threat-detection agent checks them before they are applied.
