@@ -7,6 +7,7 @@ on:
 permissions:
   contents: read
   pull-requests: read
+  issues: read
 engine:
   id: claude
   model: claude-opus-5-5
@@ -22,14 +23,17 @@ tools:
   github:
     mode: gh-proxy
 safe-outputs:
+  add-labels:
+    allowed: [risk:low, risk:medium, risk:high]
+    max: 1
   create-pull-request-review-comment:
     max: 15
     side: "RIGHT"
   submit-pull-request-review:
     allowed-events: [APPROVE, COMMENT, REQUEST_CHANGES]
     supersede-older-reviews: true
-    threat-detection:
-      prompt: "Flag anything that leaks secrets or edits CI config, and any APPROVE of a change to .github/"
+  threat-detection:
+    prompt: "Flag anything that leaks secrets or edits CI config, and any APPROVE of a change to .github/"
 ---
 
 # Deep pull request review
@@ -41,9 +45,9 @@ coordinate; specialist subagents do the reviewing. Follow the review rules.
 
 ## 1. Brief
 
-Read the title, description, any linked issue, the full diff, CONTRIBUTING.md
-and existing review comments. Write a short brief: what the change is meant to
-do, which files and functions it touches, and anything risky you noticed. Every
+Read the title, description, any linked issue, the full diff, REVIEW.md,
+CONTRIBUTING.md and existing review comments. Write a short brief: what the
+change is meant to do, which files and functions it touches, and anything risky you noticed. Every
 subagent gets this brief and the pull request number.
 
 ## 2. Specialist reviews
@@ -68,12 +72,13 @@ in the format the review rules require. They do not post anything.
 ## 3. Verify
 
 Merge findings that describe the same problem. Then, for each remaining
-finding, launch a fresh verifier subagent that did not produce it. Give it the
-finding and the brief, and ask it to prove the finding wrong from the code.
-Keep only findings the verifier confirms with concrete evidence.
+finding, launch three fresh verifier subagents that did not produce it. Give
+each the finding and the brief, and ask it to prove the finding wrong from the
+code, then vote real or not real. Keep a finding only if at least two of the
+three vote real with concrete evidence.
 
 ## 4. Post
 
 Post the confirmed findings and give your verdict as the review rules say.
 Mention in the review body that this was a deep review and how many findings
-the verifiers dropped.
+the vote dropped.
