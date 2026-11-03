@@ -5,12 +5,12 @@ on:
 permissions:
   contents: read
   pull-requests: read
+  issues: read
   actions: read
   deployments: read
   security-events: read
-engine:
-  id: claude
-  model: claude-sonnet-5-5
+# Gemini until there is an Anthropic key.
+engine: gemini
 timeout-minutes: 20
 max-ai-credits: 1000
 max-turns: 40
